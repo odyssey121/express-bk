@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/express-bk-e2e"
+    },
+    {
+      "path": "./apps/express-bk"
+    }
+  ]
+}
