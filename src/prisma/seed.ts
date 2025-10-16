@@ -3,9 +3,10 @@ import {createUser} from "../app/routes/user/user.service";
 import {UserModel} from "../app/routes/user/user.model"
 import {
     randEmail,
-    randFullName,
-    randPassword
+    randFullName, randNumber,
+    randPassword, randPhrase
 } from '@ngneat/falso';
+import {createEvent} from "../app/routes/event/event.service";
 
 export const generateUser = async (): Promise<Partial<UserModel>> =>
     createUser({
@@ -14,15 +15,19 @@ export const generateUser = async (): Promise<Partial<UserModel>> =>
         password: randPassword()
     });
 
+export const generateEvents = async () =>
+    createEvent(
+        {
+            name: randPhrase(),
+            total_seats: randNumber({min: 10, max: 999}),
+        }
+    );
+
+
 async function main() {
     try {
-        const users = await Promise.all(Array.from({length: 12}, () => generateUser()));
-        users?.map(user => user);
-
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const user of users) {
-            console.log('user', user);
-        }
+        await Promise.all(Array.from({length: 12}, () => generateUser()));
+        await Promise.all(Array.from({length: 12}, () => generateEvents()));
     } catch (e) {
         console.error(e);
 

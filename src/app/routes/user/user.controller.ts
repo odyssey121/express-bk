@@ -1,18 +1,19 @@
 import {NextFunction, Request, Response, Router} from 'express';
-import {createUser, getCurrentUser, updateUser} from './user.service';
+import {createUser, getUsers, updateUser} from './user.service';
 
 const router = Router();
 
 /**
- * Create an user
- * @user none
+ * Create user
  * @route {POST} /users
- * @bodyparam user User
- * @returns user User
+ * @bodyparam username string
+ * @bodyparam email string
+ * @bodyparam password string
+ * @returns
  */
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await createUser({...req.body.user});
+        const user = await createUser(req.body);
         res.status(201).json({user});
     } catch (error) {
         next(error);
@@ -20,17 +21,19 @@ router.post('/users', async (req: Request, res: Response, next: NextFunction) =>
 });
 
 /**
- * Get current user
- * @user required
- * @route {GET} /user
- * @returns user User
+ * Get user by id or all
+ * @route {GET} /user/:id?
+ * @returns
  */
-router.get('/user/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/users/:id?', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const parsedId = parseInt(req.params.id);
         const userId = isNaN(parsedId) ? 0: parsedId;
-        const user = await getCurrentUser(userId);
-        res.json({user});
+        const usersResult = await getUsers(req.query, userId);
+        if(usersResult.users.length === 1) {
+            return res.json(usersResult.users[0]);
+        }
+        res.json(usersResult);
     } catch (error) {
         next(error);
     }
@@ -43,9 +46,9 @@ router.get('/user/:id', async (req: Request, res: Response, next: NextFunction) 
  * @bodyparam user User
  * @returns user User
  */
-router.put('/user', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await updateUser(req.body.user, req.body.used?.id);
+        const user = await updateUser(req.body, parseInt(req.params.id));
         res.json({user});
     } catch (error) {
         next(error);
