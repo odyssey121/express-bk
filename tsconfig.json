@@ -4,10 +4,10 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/express-bk-e2e"
+      "path": "./e2e"
     },
     {
-      "path": "./apps/express-bk"
+      "path": "./src"
     }
   ]
 }

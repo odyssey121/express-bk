@@ -2,17 +2,27 @@
   "name": "@express-bk/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
-  "private": true,
+  "scripts": {
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test"
+  },
+  "private": false,
+  "prisma": {
+    "seed": "ts-node --transpile-only --compiler-options {\"module\":\"CommonJS\"} src/prisma/seed.ts",
+    "schema": "src/prisma/schema.prisma"
+  },
   "dependencies": {
+    "@prisma/client": "^6.17.1",
     "axios": "^1.6.0",
     "express": "^4.21.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@nx/esbuild": "^21.6.5",
     "@nx/eslint": "21.6.5",
     "@nx/eslint-plugin": "21.6.5",
-    "@nx/express": "21.6.5",
+    "@nx/express": "^21.6.5",
     "@nx/jest": "21.6.5",
     "@nx/js": "21.6.5",
     "@nx/node": "21.6.5",
@@ -28,12 +38,14 @@
     "@types/express": "^4.17.21",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.9",
+    "esbuild": "^0.19.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "jest": "^30.0.2",
     "jest-environment-node": "^30.0.2",
     "jest-util": "^30.0.2",
     "nx": "21.6.5",
+    "prisma": "^6.17.1",
     "react-refresh": "^0.10.0",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",
@@ -41,8 +53,5 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
     "webpack-cli": "^5.1.4"
-  },
-  "workspaces": [
-    "apps/*"
-  ]
+  }
 }
