@@ -8,15 +8,15 @@
     "test": "nx test"
   },
   "private": false,
-  "prisma": {
-    "seed": "ts-node --transpile-only --compiler-options {\"module\":\"CommonJS\"} src/prisma/seed.ts",
-    "schema": "src/prisma/schema.prisma"
-  },
   "dependencies": {
+    "@ngneat/falso": "^8.0.2",
     "@prisma/client": "^6.17.1",
     "axios": "^1.6.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "express": "^4.21.2"
   },
+
   "devDependencies": {
     "@eslint/js": "^9.8.0",
     "@nx/esbuild": "^21.6.5",
@@ -35,10 +35,11 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@swc/jest": "~0.2.38",
+    "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.9",
-    "esbuild": "^0.19.2",
+    "esbuild": "^0.25.11",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "jest": "^30.0.2",
