@@ -37,4 +37,6 @@ model Booking {
   user_id   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  @@unique([user_id, event_id], name: "user_id_event_id__unique")
 }

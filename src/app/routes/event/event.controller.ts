@@ -7,17 +7,14 @@ const router = Router();
 /**
  * Get event by id or all
  * @route {GET} /events/:id?
- * @returns
+ * @returns event EventModel | Array<EventModel>
  */
 router.get('/events/:id?', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const parsedId = parseInt(req.params.id);
         const eventId = isNaN(parsedId) ? 0 : parsedId;
-        const eventsResult = await getEvents(req.query, eventId);
-        if (eventsResult.events.length === 1) {
-            return res.json(eventsResult.events[0]);
-        }
-        res.json(eventsResult);
+        const data = await getEvents(req.query, eventId);
+        res.json(data);
     } catch (error) {
         next(error);
     }
@@ -28,12 +25,12 @@ router.get('/events/:id?', async (req: Request, res: Response, next: NextFunctio
  * @route {POST} /events
  * @bodyparam  name
  * @bodyparam  total_seats
- * @returns
+ * @returns event EventModel
  */
 router.post('/events', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const booking = await createEvent(req.body);
-        res.status(201).json({booking});
+        const event = await createEvent(req.body);
+        res.status(201).json(event);
     } catch (error) {
         next(error);
     }

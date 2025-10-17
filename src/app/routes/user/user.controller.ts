@@ -9,12 +9,12 @@ const router = Router();
  * @bodyparam username string
  * @bodyparam email string
  * @bodyparam password string
- * @returns
+ * @returns user Partial<UserModel>
  */
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await createUser(req.body);
-        res.status(201).json({user});
+        res.status(201).json(user);
     } catch (error) {
         next(error);
     }
@@ -23,17 +23,14 @@ router.post('/users', async (req: Request, res: Response, next: NextFunction) =>
 /**
  * Get user by id or all
  * @route {GET} /user/:id?
- * @returns
+ * @returns data UserModel | Array<UserModel>
  */
 router.get('/users/:id?', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const parsedId = parseInt(req.params.id);
         const userId = isNaN(parsedId) ? 0: parsedId;
-        const usersResult = await getUsers(req.query, userId);
-        if(usersResult.users.length === 1) {
-            return res.json(usersResult.users[0]);
-        }
-        res.json(usersResult);
+        const data = await getUsers(req.query, userId);
+        res.json(data);
     } catch (error) {
         next(error);
     }
@@ -43,13 +40,13 @@ router.get('/users/:id?', async (req: Request, res: Response, next: NextFunction
  * Update user
  * @user required
  * @route {PUT} /user
- * @bodyparam user User
- * @returns user User
+ * @bodyparam user UserModel
+ * @returns user Partial<UserModel>
  */
 router.put('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await updateUser(req.body, parseInt(req.params.id));
-        res.json({user});
+        res.json(user);
     } catch (error) {
         next(error);
     }

@@ -3,7 +3,6 @@ import userController from './user/user.controller';
 import bookingController from './booking/booking.controller';
 import eventController from './event/event.controller';
 
-
 const api = Router()
     .use(userController)
     .use(bookingController)

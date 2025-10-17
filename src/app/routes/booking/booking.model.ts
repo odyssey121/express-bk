@@ -1,8 +1,7 @@
-import {UserModel} from "../user/user.model";
-
 export interface BookingModel {
     id: number;
-    user: UserModel;
+    user_id: number;
+    event_id: number;
     createdAt: Date;
     updatedAt: Date;
 }

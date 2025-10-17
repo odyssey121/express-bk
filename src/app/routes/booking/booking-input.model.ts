@@ -1,4 +1,4 @@
 export interface BookingInput {
-    user_id: number;
-    event_id: number;
+    user_id: any;
+    event_id: any;
 }

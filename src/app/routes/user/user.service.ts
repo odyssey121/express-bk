@@ -1,6 +1,6 @@
 import prisma from '../../../prisma/prisma-client';
 import HttpException from '../../models/http-exception.model';
-import bcrypt from 'bcryptjs'
+const bcrypt = require('bcryptjs');
 import {UserInput} from "./user-input.model";
 import {UserModel} from "./user.model"
 
@@ -54,7 +54,7 @@ export const createUser = async (input: UserInput): Promise<Partial<UserModel>> 
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    return await prisma.user.create({
+    return prisma.user.create({
         data: {
             username,
             email,
@@ -65,7 +65,7 @@ export const createUser = async (input: UserInput): Promise<Partial<UserModel>> 
             email: true,
             username: true,
         },
-    })
+    });
 };
 
 const buildFindAllQuery = (id: number | undefined) => {
@@ -88,12 +88,7 @@ const buildFindAllQuery = (id: number | undefined) => {
 
 export const getUsers = async (query: any, id?: number | undefined) => {
     const andQueries = buildFindAllQuery(id);
-    const usersCounts = await prisma.user.count({
-        where: {
-            AND: andQueries,
-        },
-    });
-    const users = await prisma.event.findMany({
+    const data = await prisma.event.findMany({
         where: {AND: andQueries},
         orderBy: {
             id: 'desc',
@@ -108,16 +103,21 @@ export const getUsers = async (query: any, id?: number | undefined) => {
                 },
             }
         },
-
     });
 
-    return {
-        count: usersCounts,
-        users,
-    };
+    if (!id) {
+        const count = await prisma.user.count({
+            where: {
+                AND: andQueries,
+            },
+        });
+        return {count, data}
+    }
+
+    return {data};
 };
 
-export const updateUser = async (userPayload: UserInput, id: number) => {
+export const updateUser = async (userPayload: UserInput, id: number): Promise<Partial<UserModel>> => {
     const {email, username, password} = userPayload;
 
     const user = await prisma.user.update({
