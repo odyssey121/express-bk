@@ -16,7 +16,7 @@ export default defineConfig({
         // This example uses 'tsx' for running TypeScript seed files.
         // The '--env-file=.env' flag is important if your seed script relies on environment variables
         // and you're not loading them globally (e.g., via 'dotenv/config').
-        seed: `ts-node --transpile-only src/prisma/seed.ts`,
+        seed: `ts-node --transpile-only dist/api/src/prisma/seed.js`,
     },
 
     // Optional: Configuration for Prisma Studio.

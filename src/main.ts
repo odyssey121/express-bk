@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
 import * as bodyParser from 'body-parser';
+import cors from 'cors';
+import express from 'express';
+import HttpException from './app/models/http-exception.model';
 import routes from './app/routes/routes';
-import HttpException from '../../express-bk/src/app/models/http-exception.model';
 
 const app = express();
 
