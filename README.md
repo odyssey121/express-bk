@@ -6,10 +6,10 @@
 
    Первый шаг 
 
-        { docker-compose build --no-cache }
+        docker compose build --no-cache
    Второй шаг
 
-        { docker compose --profile migrations up migrations && docker compose up -d web }
+        docker compose --profile migrations up migrations && docker compose up -d web
 
 
 ## API
